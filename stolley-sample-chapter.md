@@ -21,7 +21,7 @@ If you want to have a completed version of the code either to follow along with 
 
 Once you have a copy of the repository, take a look around and find the directory or folder called  `public/`. It contains the HTML, CSS, and JavaScript files for the chapter’s app. The HTML you’ll be writing belongs in `index.html`, right inside of `public/`. The CSS and JS files are in the `css/` and `js/` subdirectories inside of `public/`. You’re welcome to use those starter files as-is, or empty them out and start your own.
 
-If you already set up Node.js in Chapter One, you can quickly install some dependencies and then fire up a server to check view your files in your development browser as you work. On the command line, change directories to the one that contains the `server.js` file and run these commands:
+If you already set up Node.js in Chapter One, you can quickly install some dependencies and then fire up a server to test your files in your development browser as you work. On the command line, change directories to the one that contains the `server.js` file and run these commands:
 
 ```sh
 $ npm install
