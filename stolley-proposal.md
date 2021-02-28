@@ -1,4 +1,4 @@
-Dr. Karl Stolley
+Dr. Karl Stolley  
 karl.stolley@gmail.com  
 312-351-4326  
 4134 W Wellington Ave  
