@@ -2,7 +2,7 @@ Stolley: Sample chapter
 
 # Chapter Two: Establishing a Peer-to-Peer Connection
 
-WebRTC’s possibilities are a lot easier to imagine once you’ve wired up a connection and can see it in action across a couple of open browser windows on your desktop. The rest of the book looks more closely at all the different components of the peer-to-peer web applications and the incredible things you can build. Other chapters will also include a lot of invitations for you to experiment. But the goal in this chapter is to work systematically and get some foundational code working as quickly as possible.
+WebRTC’s possibilities are a lot easier to imagine once you’ve wired up a connection and can see it in action across a couple of open browser windows on your desktop. The rest of the book looks more closely at all the different components of peer-to-peer web applications and the incredible things you can build. Other chapters will also include a lot of invitations for you to experiment. But the goal in this chapter is to work systematically and get some foundational code working as quickly as possible.
 
 You’ll be building a basic video-chat app that allows two connected peers to stream video directly to each other. (To prevent skull-shattering feedback while you test things out, you’ll start off with the audio disabled.) In the process, you will do meaningful work with the core pieces of a peer-to-peer app. We’ll start off by building a basic interface in semantic HTML and leading-edge CSS before turning attention to the media capture API, media streams, and a signaling server. The chapter then walks you through building a real-world implementation of the “perfect negotiation” pattern found in the WebRTC specification for setting up a connection with the `RTCPeerConnection` interface.
 
@@ -14,7 +14,7 @@ You can find the starter code for this chapter on GitHub at https://github.com/p
 If you prefer to work with Git, you can clone the repository to any location you like by firing up your terminal and running this command:
 
 ```sh
-$ git clone git@github.com/prag-webrtc/ch-2-starter.git
+$ git clone git@github.com:prag-webrtc/ch-2-starter.git
 ```
 
 If you want to have a completed version of the code either to follow along with or to check your own work against, get yourself a copy of the repository at https://github.com/prag-webrtc/ch-2-complete. There is also a live version of this app available at https://rtc.stolley.dev/.
@@ -194,7 +194,7 @@ Finally, although it’s overkill to use ID selectors in CSS like this, for the 
 }
 ```
 
-The 143px width value is tailored to comfortably fit the width of “Join Call” and “Leave Call,” while also being derived from the page’s 22px line-height. All the width does is ensure the button won’t jump widths when clicked. That doesn’t matter much when the button on its own line, but as a small responsive touch, let’s add a media query to display the contents of the `<header id="header">` as flex items, all on the same line:
+The 143px width value is tailored to comfortably fit the width of “Join Call” and “Leave Call,” while also being derived from the page’s 22px line-height. All the width does is ensure the button won’t jump widths when clicked. That doesn’t matter much when the is button on its own line, but as a small responsive touch, let’s add a media query to display the contents of the `<header id="header">` as flex items, all on the same line:
 
 ```css
 @media screen and (min-width: 500px) {
@@ -233,7 +233,7 @@ video {
 
 I’ve set the background color on video elements to a very light shade of gray, which will show the exact boundaries of the video elements and play nicely with the transparent smiley-face PNG set on the video element’s `poster` attribute.
 
-The peer video will display as-is, but a few adjustments to the self video will make it obvious which video is which. That’s helpful if you have just a single camera on your computer. The same streaming video image will appear in both videos when you’re testing:
+The peer video can display as-is, but a few adjustments to the self video will make it obvious which video is which. That’s helpful if you have just a single camera on your computer. The same streaming video image will appear in both videos when you’re testing:
 
 ```css
 #self {
@@ -333,7 +333,7 @@ ui.callButton.addEventListener('click', handleUiCallButton);
 The nitty-gritty details of `handleUiCallButton` are in their own spot toward the bottom of the JavaScript file. That organizational habit will be even more important once the file includes more of the WebRTC code, which is almost entirely event-driven.
 
 ### Working with Data Returned to Callback Functions
-The `addEventListener` method, like many methods that work with callback functions, passes along chunk of data to the callback when its event fires. With  `addEventListener` , it’s basically convention to handle that data using either `event` or simply `e` as an argument in the callback function:
+The `addEventListener` method, like many methods that work with callback functions, passes along a chunk of data to the callback when its event fires. With  `addEventListener`, it’s basically convention to handle that data using either `event` or simply `e` as an argument in the callback function:
 
 ```javascript
 // main.js
@@ -386,7 +386,7 @@ The web relies on a client-server architecture, where the *client* part is usual
 
 [FIGURE PLACEHOLDER]
 
-As a genuine peer-to-peer technology, the architecture of WebRTC just about eliminates the need for a server. The suite of APIs that comprises WebRTC are all implemented natively in the browser. (There are server, OS, and even smart-device implementations of WebRTC, too, but they represent very different use cases, and are beyond the scope of this book.) Once a connection is established, WebRTC in the browser enables any two peers to directly exchange data, including streaming media, without that data ever touching a web server. This is the browser-to-browser web.
+As a genuine peer-to-peer technology, the architecture of WebRTC just about eliminates the need for a server. The suite of APIs that comprises WebRTC is  implemented natively in the browser. (There are server, OS, and even smart-device implementations of WebRTC, too, but they represent very different use cases, and are beyond the scope of this book.) Once a connection is established, WebRTC in the browser enables any two peers to directly exchange data, including streaming media, without that data ever touching a web server. This is the browser-to-browser web.
 
 ### Peer-to-Peer Connections Must Be Negotiated
 Of course, there’s one little hitch: WebRTC is peer-to-peer *once a connection is established.* RTC peer connections take a little bit of work to establish, of course, and usually with the aid of a server.
@@ -395,7 +395,7 @@ As web developers, we’re used to the request-response connection pattern of HT
 
 Establishing a connection with WebRTC is a bit more involved than request-response. The two connecting peers have to negotiate the terms of the connection before it can be established. Instead of request-response, peer connections are negotiated by an offer-answer pattern over a signaling channel.
 
-The offer-answer structure of establishing an RTC peer connection is metaphorically no different from a conversation between two friends who want to meet for coffee. Unless they share a remarkably strong psychic connection, the two friends won’t just show up the same day and time at the exact same coffee shop. They must first negotiate the details of the coffee date, using a some kind of a signaling channel: email, phone, text, or something conventional like that. Even a remarkably strong psychic connection represents a signaling channel, when it comes right down to it.
+The offer-answer structure of establishing an RTC peer connection is metaphorically no different from a conversation between two friends who want to meet for coffee. Unless they share a remarkably strong psychic connection, the two friends won’t just show up the same day and time at the exact same coffee shop. They must first negotiate the details of the coffee date, using some kind of a signaling channel: email, phone, text, or something conventional like that. Even a remarkably strong psychic connection represents a signaling channel, when it comes right down to it.
 
 But let’s keep it conventional and familiar: One friend initiates the coffee date by sending a text, making a phone call, or whatever. That friend provides proposed details on a plan to meet up, and the other friend responds. The friends go back and forth, offering and answering, until they reach an agreement to meet at a specific time and place. Regardless of the signaling channel used (text, phone, email), their conversation goes something like this:
 
