@@ -121,3 +121,5 @@ That said, I would be eager to learn more marketing strategies from Pragmatic Pr
 
 ## Writing sample
 I’m including a full chapter, Establishing a Peer-to-Peer Connection, as my writing sample. As the chapter introduction states, its purpose is to get readers up and running with WebRTC as quickly as possible by building a basic video-chat app. The chapter’s many topics will be explored more fully elsewhere in the book, always through additional, lightly featured WebRTC  applications. This chapter both exemplifies how the rest of the book will be written, and showcases how I prepare readers for everything else that follows.
+
+Because it is a full chapter, you might only want to browse the opening sections to get a sense of how the chapter includes full details on the setup of the UI. Things really get going beginning with the section “WebRTC is a Front-End Technology,” if you’re looking for a good spot to skip ahead to.
